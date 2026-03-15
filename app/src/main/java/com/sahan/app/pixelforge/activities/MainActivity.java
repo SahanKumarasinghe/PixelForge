@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SideNavHeaderBinding sideNavHeaderBinding;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseDB;
+    private ActivityMainBinding homeBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityMainBinding homeBinding = ActivityMainBinding.inflate(getLayoutInflater());
-
+        this.homeBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(homeBinding.getRoot());
 
         this.drawerLayout = homeBinding.drawerLayout;
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (itemId == R.id.app_bar_home || itemId == R.id.bottom_nav_home) {
-
+            homeBinding.topBar.setVisibility(View.VISIBLE);
             loadFragment(new HomeFragment());
             navigationView.getMenu().findItem(R.id.app_bar_home).setChecked(true);
             bottomNavigationView.getMenu().findItem(R.id.bottom_nav_home).setChecked(true);
@@ -183,22 +183,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
 
+            homeBinding.topBar.setVisibility(View.GONE);
             loadFragment(new ProfileFragment());
             navigationView.getMenu().findItem(R.id.app_bar_profile).setChecked(true);
             bottomNavigationView.getMenu().findItem(R.id.bottom_nav_profile).setChecked(true);
 
-        } else if (itemId == R.id.app_bar_orders) {
 
+        } else if (itemId == R.id.app_bar_orders) {
+            homeBinding.topBar.setVisibility(View.VISIBLE);
             loadFragment(new OrdersFragment());
             navigationView.getMenu().findItem(R.id.app_bar_orders).setChecked(true);
 
         } else if (itemId == R.id.app_bar_wishlist) {
-
+            homeBinding.topBar.setVisibility(View.VISIBLE);
             loadFragment(new WishlistFragment());
             navigationView.getMenu().findItem(R.id.app_bar_wishlist).setChecked(true);
 
         } else if (itemId == R.id.app_bar_cart || itemId == R.id.bottom_nav_cart) {
-
+            homeBinding.topBar.setVisibility(View.VISIBLE);
             if (firebaseAuth.getCurrentUser() == null) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -209,22 +211,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bottomNavigationView.getMenu().findItem(R.id.bottom_nav_cart).setChecked(true);
 
         } else if (itemId == R.id.app_bar_message) {
-
+            homeBinding.topBar.setVisibility(View.VISIBLE);
 //            loadFragment(new MessageFragment());
 //            navigationView.getMenu().findItem(R.id.app_bar_message).setChecked(true);
 
         } else if (itemId == R.id.app_bar_settings) {
-
+            homeBinding.topBar.setVisibility(View.VISIBLE);
             loadFragment(new SettingsFragment());
             navigationView.getMenu().findItem(R.id.app_bar_settings).setChecked(true);
 
         } else if (itemId == R.id.bottom_nav_category) {
-
+            homeBinding.topBar.setVisibility(View.VISIBLE);
             loadFragment(new CategoryFragment());
             bottomNavigationView.getMenu().findItem(R.id.bottom_nav_category).setChecked(true);
 
         } else if (itemId == R.id.app_bar_login) {
-
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
 
