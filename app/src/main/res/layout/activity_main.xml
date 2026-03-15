@@ -37,6 +37,7 @@
 <!--        </com.google.android.material.appbar.MaterialToolbar>-->
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/top_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/md_theme_inverseOnSurface_highContrast">
