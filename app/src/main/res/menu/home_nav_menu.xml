@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/side_nav_group_main">
+        <item
+            android:id="@+id/app_bar_home"
+            android:checkable="true"
+            android:icon="@drawable/home_smile_svgrepo_com"
+            android:title="@string/side_nav_home_title"
+            android:visible="true"/>
+        <item
+            android:id="@+id/app_bar_profile"
+            android:checkable="true"
+            android:icon="@drawable/user_svgrepo_com"
+            android:title="@string/side_nav_profile_title"
+            android:visible="false"/>
+        <item
+            android:id="@+id/app_bar_wishlist"
+            android:checkable="true"
+            android:icon="@drawable/heart_angle_svgrepo_com"
+            android:title="@string/side_nav_wishlist_title"
+            android:visible="false"/>
+        <item
+            android:id="@+id/app_bar_orders"
+            android:checkable="true"
+            android:icon="@drawable/box_svgrepo_com"
+            android:title="@string/side_nav_orders_title"
+            android:visible="false"/>
+        <item
+            android:id="@+id/app_bar_cart"
+            android:checkable="true"
+            android:icon="@drawable/cart_large_svgrepo_com"
+            android:title="@string/side_nav_cart_title"
+            android:visible="false"/>
+        <item
+            android:id="@+id/app_bar_message"
+            android:checkable="true"
+            android:icon="@drawable/chat_unread_svgrepo_com"
+            android:title="@string/side_nav_message_title"
+            android:visible="false"/>
+        <item
+            android:id="@+id/app_bar_settings"
+            android:checkable="true"
+            android:icon="@drawable/settings_svgrepo_com"
+            android:title="@string/side_nav_settings_title"
+            android:visible="true"/>
+    </group>
+    <group>
+        <item
+            android:id="@+id/app_bar_login"
+            android:icon="@drawable/login_2_svgrepo_com"
+            android:title="@string/side_nav_login_title"
+            android:visible="true" />
+        <item
+            android:id="@+id/app_bar_logout"
+            android:icon="@drawable/logout_2_svgrepo_com"
+            android:title="@string/side_nav_logout_title"
+            android:visible="false" />
+    </group>
+</menu>

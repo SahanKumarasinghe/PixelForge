@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "580063085780",
+    "project_id": "pixelforge-85879",
+    "storage_bucket": "pixelforge-85879.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580063085780:android:1a8ee84f29a97bc2fce741",
+        "android_client_info": {
+          "package_name": "com.sahan.app.pixelforge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFCs4Rlb_nlKBaKd0JD3idyOkaf25q8KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

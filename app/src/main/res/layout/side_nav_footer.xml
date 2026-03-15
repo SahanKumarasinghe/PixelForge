@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_gravity="bottom"
+    android:paddingBottom="40dp">
+
+    <ImageView
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/logout_2_svgrepo_com"
+        android:backgroundTint="@color/nav_item_colors"
+        android:paddingBottom="1dp"
+        />
+
+    <TextView
+        android:id="@+id/sasa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/side_nav_logout_title"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="3dp"
+        android:textSize="15sp" />
+
+
+</FrameLayout>
