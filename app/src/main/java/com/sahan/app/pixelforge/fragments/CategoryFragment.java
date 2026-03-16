@@ -19,7 +19,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
@@ -51,29 +53,32 @@ public class CategoryFragment extends Fragment {
 
         binding.categoryRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         FirebaseFirestore fireBaseDb = FirebaseFirestore.getInstance();
-        fireBaseDb.collection("categories").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot result = task.getResult();
-                List<Category> categoryList = result.toObjects(Category.class);
-                adapter = new CategoryAdapter(categoryList, category -> {
+        fireBaseDb.collection("categories")
+                .orderBy(FieldPath.documentId(), Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        QuerySnapshot result = task.getResult();
+                        List<Category> categoryList = result.toObjects(Category.class);
+                        adapter = new CategoryAdapter(categoryList, category -> {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("categoryId", category.getCatId());
-//
-//                    ListingFragment fragment = new ListingFragment();
-//                    fragment.setArguments(bundle);
-//                    getParentFragmentManager().beginTransaction().replace(R.id.containerView,fragment).addToBackStack(null).commit();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("categoryId", category.getCatId());
 
+                    ListingFragment fragment = new ListingFragment();
+                    fragment.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.containerView,fragment).addToBackStack(null).commit();
+
+                        });
+                        binding.categoryRecyclerView.setAdapter(adapter);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, e.toString().trim());
+                    }
                 });
-                binding.categoryRecyclerView.setAdapter(adapter);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG, e.toString().trim());
-            }
-        });
 
         getActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
