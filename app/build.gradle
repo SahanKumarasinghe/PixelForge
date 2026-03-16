@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.dotsindicator)
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
     implementation libs.glide
