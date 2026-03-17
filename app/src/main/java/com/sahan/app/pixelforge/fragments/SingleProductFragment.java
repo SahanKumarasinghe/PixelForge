@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,6 +30,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sahan.app.pixelforge.R;
+import com.sahan.app.pixelforge.activities.MainActivity;
 import com.sahan.app.pixelforge.adapters.ProductSliderAdapter;
 import com.sahan.app.pixelforge.adapters.SectionAdapter;
 import com.sahan.app.pixelforge.databinding.FragmentSingleProductBinding;
@@ -96,7 +98,7 @@ public class SingleProductFragment extends Fragment {
                             binding.productDetailsDescription.setText(product.getDescription());
                             NumberFormat formatter = NumberFormat.getNumberInstance();
                             binding.productDetailsPrice.setText("LKR " + formatter.format(product.getPrice()));
-                            binding.productDetailsRatingNumber.setText(String.format("%.1f",(float) product.getRating()));
+                            binding.productDetailsRatingNumber.setText(String.format("%.1f", (float) product.getRating()));
                             binding.productDetailsRating.setRating(product.getRating());
                             binding.productDetailsStockCount.setText(String.valueOf(product.getStockCount()));
 
@@ -146,45 +148,95 @@ public class SingleProductFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("products")
-                .whereEqualTo("catID",catID)
-                .whereNotEqualTo("productID", productID)
-                .orderBy("productID")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot qds) {
-                        if (!qds.isEmpty()) {
-                            List<Product> products = qds.toObjects(Product.class);
+        if (catID == null) {
+            db.collection("products")
+                    .whereEqualTo("productID", productID)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot qs) {
+                            catID = qs.getDocuments().get(0).getString("catID");
+                            db.collection("products")
+                                    .whereEqualTo("catID", catID)
+                                    .whereNotEqualTo("productID", productID)
+                                    .orderBy("productID")
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot qds) {
+                                            if (!qds.isEmpty()) {
+                                                List<Product> products = qds.toObjects(Product.class);
 
-                            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                            binding.productDetailsTopSellingSection.itemSelectionContainer.setLayoutManager(layoutManager);
+                                                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                                                binding.productDetailsTopSellingSection.itemSelectionContainer.setLayoutManager(layoutManager);
 
-                            SectionAdapter adapter = new SectionAdapter(products, product -> {
-                                Bundle bundle = new Bundle();
-                                bundle.putString("productID", product.getProductID());
+                                                SectionAdapter adapter = new SectionAdapter(products, product -> {
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putString("productID", product.getProductID());
 
-                                SingleProductFragment productDetailsFragment = new SingleProductFragment();
-                                productDetailsFragment.setArguments(bundle);
+                                                    SingleProductFragment productDetailsFragment = new SingleProductFragment();
+                                                    productDetailsFragment.setArguments(bundle);
 
-                                getParentFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.containerView, productDetailsFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-                            });
+                                                    getParentFragmentManager()
+                                                            .beginTransaction()
+                                                            .replace(R.id.containerView, productDetailsFragment)
+                                                            .addToBackStack(null)
+                                                            .commit();
+                                                });
 
-                            binding.productDetailsTopSellingSection.itemSelectionContainer.setAdapter(adapter);
+                                                binding.productDetailsTopSellingSection.itemSelectionContainer.setAdapter(adapter);
+
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                        }
+                                    });
 
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    });
+        } else {
+            db.collection("products")
+                    .whereEqualTo("catID", catID)
+                    .whereNotEqualTo("productID", productID)
+                    .orderBy("productID")
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot qds) {
+                            if (!qds.isEmpty()) {
+                                List<Product> products = qds.toObjects(Product.class);
 
-                    }
-                });
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                                binding.productDetailsTopSellingSection.itemSelectionContainer.setLayoutManager(layoutManager);
 
+                                SectionAdapter adapter = new SectionAdapter(products, product -> {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("productID", product.getProductID());
+
+                                    SingleProductFragment productDetailsFragment = new SingleProductFragment();
+                                    productDetailsFragment.setArguments(bundle);
+
+                                    getParentFragmentManager()
+                                            .beginTransaction()
+                                            .replace(R.id.containerView, productDetailsFragment)
+                                            .addToBackStack(null)
+                                            .commit();
+                                });
+
+                                binding.productDetailsTopSellingSection.itemSelectionContainer.setAdapter(adapter);
+
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
     }
 
     private void renderAttributes(Product.Attribute attribute, ViewGroup container) {
@@ -200,7 +252,7 @@ public class SingleProductFragment extends Fragment {
         layoutParams.gravity = Gravity.CENTER_VERTICAL;
         label.setLayoutParams(layoutParams);
 
-        label.setText(attribute.getName()+" : ");
+        label.setText(attribute.getName() + " : ");
 
         row.addView(label);
 

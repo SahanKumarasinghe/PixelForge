@@ -14,7 +14,7 @@
             android:id="@+id/item_product_r_image"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:scaleType="centerInside" />
+            android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/item_product_r_title"

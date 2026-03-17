@@ -71,8 +71,8 @@ public class CategoryFragment extends Fragment {
 
                             requireActivity().getSupportFragmentManager()
                                     .beginTransaction()
-                                    .replace(R.id.containerView, fragment)  // This containerView is in MainActivity's layout
-                                    .addToBackStack(null)  // Optional: add to backstack so user can go back to HomeFragment
+                                    .replace(R.id.containerView, fragment)
+                                    .addToBackStack(null)
                                     .commit();
 
                         });

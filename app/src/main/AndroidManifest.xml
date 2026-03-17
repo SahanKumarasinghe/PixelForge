@@ -35,4 +35,11 @@
             android:resource="@array/preloaded_fonts" />
     </application>
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.APP_EMAIL" />
+        </intent>
+    </queries>
+
 </manifest>

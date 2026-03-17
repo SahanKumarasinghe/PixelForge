@@ -79,4 +79,5 @@
     <string name="home_categories_title">Product Categories</string>
     <string name="single_product_recommended_for_you_title">Recommended for you</string>
     <string name="top_selling">Top Selling</string>
+    <string name="discover_products">Discover Products</string>
 </resources>
