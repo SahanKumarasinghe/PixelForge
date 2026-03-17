@@ -2,18 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/item_selection_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Top Selling"
-        android:textStyle="bold"
-        android:textSize="18dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/item_selection_title"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/hot_deals"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textSize="18dp"-->
+<!--        android:paddingBottom="5dp"-->
+<!--        android:paddingTop="5dp"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_selection_container"

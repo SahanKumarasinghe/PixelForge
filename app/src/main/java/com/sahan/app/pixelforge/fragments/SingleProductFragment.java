@@ -174,7 +174,6 @@ public class SingleProductFragment extends Fragment {
                                         .commit();
                             });
 
-                            binding.productDetailsTopSellingSection.itemSelectionTitle.setText("Recommended For You");
                             binding.productDetailsTopSellingSection.itemSelectionContainer.setAdapter(adapter);
 
                         }

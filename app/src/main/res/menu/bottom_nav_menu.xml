@@ -5,9 +5,9 @@
         android:icon="@drawable/home_smile_svgrepo_com"
         android:title="@string/bottom_nav_home_title" />
     <item
-        android:id="@+id/bottom_nav_category"
-        android:icon="@drawable/clipboard_list_svgrepo_com"
-        android:title="@string/bottom_nav_category_title" />
+        android:id="@+id/bottom_nav_wishlist"
+        android:icon="@drawable/heart_angle_svgrepo_com"
+        android:title="@string/bottom_nav_wishlist_title" />
     <item
         android:id="@+id/bottom_nav_cart"
         android:icon="@drawable/cart_large_svgrepo_com"
