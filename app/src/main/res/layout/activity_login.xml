@@ -94,7 +94,7 @@
         app:srcCompat="@drawable/pixelforgelogodark" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/login_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="59dp"

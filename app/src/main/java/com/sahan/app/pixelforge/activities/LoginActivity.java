@@ -1,6 +1,10 @@
 package com.sahan.app.pixelforge.activities;
 
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,11 +23,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.sahan.app.pixelforge.databinding.ActivityLoginBinding;
 import com.sahan.app.pixelforge.activities.MainActivity;
 import com.sahan.app.pixelforge.databinding.ActivityLoginBinding;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     final static String TAG = "LoginActivity";
     private TextView emailInput;
     private TextView passwordInput;
+    private TextView forgotPassword;
 
     private Button loginBtn;
 
@@ -48,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         this.loginBtn = loginBinding.loginBtn;
 
         this.signuplink = loginBinding.signUpLink;
+        this.forgotPassword = loginBinding.loginForgotPassword;
 
         this.mAuth = FirebaseAuth.getInstance();
 
@@ -56,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        this.forgotPassword.setOnClickListener(v -> {
+            forgotPasswordProcess();
+        });
 
         this.loginBtn.setOnClickListener((View view) -> {
             String email = emailInput.getText().toString().trim();
@@ -74,25 +86,56 @@ public class LoginActivity extends AppCompatActivity {
                 authenticate(email, password);
             }
         });
+    }
 
+    private void forgotPasswordProcess() {
 
-//        loginBinding.loginEmailInput.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//        });
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String email = this.emailInput.getText().toString();
 
+        if (email.isBlank()) {
+            emailInput.setError("Email is Required");
+            emailInput.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailInput.setError("Invalid Email");
+            emailInput.requestFocus();
+            return;
+        }
+
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this,
+                                "Password reset email sent",
+                                Toast.LENGTH_SHORT).show();
+
+                        new AlertDialog.Builder(this)
+                                .setTitle("Open Email")
+                                .setMessage("Do you want to open the email app?")
+                                .setPositiveButton("Open", (dialog, which) -> {
+                                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                                    try {
+                                        startActivity(intent);
+                                    } catch (ActivityNotFoundException e) {
+                                        Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .show();
+
+                    } else {
+                        Log.w("LoginActivity", task.getException());
+                        Toast.makeText(this,
+                                "Something went wrong",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                });
     }
 
     private void authenticate(@NotNull String email, @NotNull String password) {

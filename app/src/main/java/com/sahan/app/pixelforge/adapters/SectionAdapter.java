@@ -51,9 +51,20 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
             Animation animation = AnimationUtils.loadAnimation(view.getContext(), R.anim.card_pressed_animation);
             view.startAnimation(animation);
 
-            if (clickListener != null) {
-                clickListener.onProductClick(product);
-            }
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (clickListener != null) {
+                        clickListener.onProductClick(product);
+                    }
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
         });
 
     }

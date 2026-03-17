@@ -17,33 +17,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+           >
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/product_image_slider"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
-
-
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:id="@+id/dots_indicator"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                app:dotsColor="#E0F7FA"
-                app:dotsCornerRadius="8dp"
-                app:dotsSize="14dp"
-                app:dotsSpacing="3dp"
-                app:dotsWidthFactor="2.5"
-                app:progressMode="false"
-                app:selectedDotColor="#001C49" />
+                android:orientation="vertical">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/product_image_slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"/>
+
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    app:dotsColor="#E0F7FA"
+                    app:dotsCornerRadius="4dp"
+                    app:dotsSize="14dp"
+                    app:dotsSpacing="3dp"
+                    app:dotsWidthFactor="2.5"
+                    app:progressMode="false"
+                    app:selectedDotColor="@color/md_theme_inverseOnSurface_highContrast" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/product_details_title"
@@ -65,8 +73,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
                     <RatingBar
                         android:id="@+id/product_details_rating"
@@ -81,11 +89,11 @@
                         android:id="@+id/product_details_rating_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
                         android:gravity="bottom"
                         android:text="2.0"
                         android:textSize="15sp"
-                        android:layout_marginStart="2dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -105,7 +113,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -172,15 +181,16 @@
 
 
                 </LinearLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/aldrich"
-                    android:textStyle="bold"
-                    android:text="@string/single_product_recommended_for_you_title"
                     android:paddingVertical="5dp"
+                    android:text="@string/single_product_recommended_for_you_title"
                     android:textSize="20sp"
-                    />
+                    android:textStyle="bold" />
+
                 <include
                     android:id="@+id/product_details_top_selling_section"
                     layout="@layout/item_selection"

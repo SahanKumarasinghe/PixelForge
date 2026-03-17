@@ -41,13 +41,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.categoryName.setText(category.getCatName());
         Glide.with(holder.categoryImage.getContext()).load(category.getCatImageUrl()).centerCrop().into(holder.categoryImage);
 
-        holder.itemView.setOnClickListener((View view)->{
+        holder.itemView.setOnClickListener((View view) -> {
             Animation animation = AnimationUtils.loadAnimation(view.getContext(), R.anim.card_pressed_animation);
             view.startAnimation(animation);
 
-            if (clickListener != null){
-                clickListener.onCategoryClick(category);
-            }
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    if (clickListener != null) {
+                        clickListener.onCategoryClick(category);
+                    }
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
         });
 
     }
