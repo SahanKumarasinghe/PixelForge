@@ -66,9 +66,14 @@ public class CategoryFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putString("categoryId", category.getCatId());
 
-                    ListingFragment fragment = new ListingFragment();
-                    fragment.setArguments(bundle);
-                    getParentFragmentManager().beginTransaction().replace(R.id.containerView,fragment).addToBackStack(null).commit();
+                            ListingFragment fragment = new ListingFragment();
+                            fragment.setArguments(bundle);
+
+                            requireActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.containerView, fragment)  // This containerView is in MainActivity's layout
+                                    .addToBackStack(null)  // Optional: add to backstack so user can go back to HomeFragment
+                                    .commit();
 
                         });
                         binding.categoryRecyclerView.setAdapter(adapter);

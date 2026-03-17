@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_nav_wishlist_title">Wishlist</string>
+    <string name="hot_deals">Hot Deals</string>
+    <string name="home_categories_title">Product Categories</string>
+    <string name="single_product_recommended_for_you_title">Recommended for you</string>
+    <string name="top_selling">Top Selling</string>
+</resources>

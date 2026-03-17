@@ -55,25 +55,25 @@ public class SplashActivity extends AppCompatActivity {
 
         splashProgressBar.post(this::barProgress);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.splashSpinner).setVisibility(View.VISIBLE);
-            }
-        }, 500);
-
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                forwardToHome();
-            }
-        }, 2000);
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                findViewById(R.id.splashSpinner).setVisibility(View.VISIBLE);
+//            }
+//        }, 500);
+//
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                forwardToHome();
+//            }
+//        }, 2000);
 
 
     }
 
     private void forwardToHome() {
-        findViewById(R.id.splashSpinner).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.splashSpinner).setVisibility(View.INVISIBLE);
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -93,6 +93,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 if (progress == 70) {
                     progress = 100;
+                    forwardToHome();
                 }
                 splashProgressBar.setProgress(progress);
                 progress++;

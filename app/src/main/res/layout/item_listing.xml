@@ -6,11 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:background="@color/md_theme_inverseOnSurface_highContrast"
-    android:layout_marginStart="3dp"
-    android:layout_marginEnd="3dp"
-    android:layout_marginTop="7dp">
+    android:padding="5dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -28,11 +24,14 @@
     <TextView
         android:id="@+id/listing_title"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:text="@string/category_laptop_title"
         android:textSize="16sp"
         android:fontFamily="@font/aldrich"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingVertical="2dp"/>
     <TextView
         android:id="@+id/listing_price"
         android:layout_width="wrap_content"

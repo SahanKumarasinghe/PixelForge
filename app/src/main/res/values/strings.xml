@@ -74,4 +74,9 @@
     <string name="signup_title">Sign Up</string>
     <string name="password_requirement_text">password must contain at-least 6 characters</string>
     <string name="category_laptop_title">Laptops</string>
+    <string name="bottom_nav_wishlist_title">Wishlist</string>
+    <string name="hot_deals">Hot Deals</string>
+    <string name="home_categories_title">Product Categories</string>
+    <string name="single_product_recommended_for_you_title">Recommended for you</string>
+    <string name="top_selling">Top Selling</string>
 </resources>

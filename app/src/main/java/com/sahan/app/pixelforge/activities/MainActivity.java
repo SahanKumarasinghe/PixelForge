@@ -2,6 +2,7 @@ package com.sahan.app.pixelforge.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigationView.setOnItemSelectedListener(this);
 
         if (savedInstanceState == null) {
+            loadData(2000);
             loadFragment(new HomeFragment());
             navigationView.getMenu().findItem(R.id.app_bar_home).setChecked(true);
         }
@@ -157,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        loadData(1000);
 
         int itemId = menuItem.getItemId();
 
@@ -220,10 +224,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadFragment(new SettingsFragment());
             navigationView.getMenu().findItem(R.id.app_bar_settings).setChecked(true);
 
-        } else if (itemId == R.id.bottom_nav_category) {
+        } else if (itemId == R.id.bottom_nav_wishlist) {
             homeBinding.topBar.setVisibility(View.VISIBLE);
-            loadFragment(new CategoryFragment());
-            bottomNavigationView.getMenu().findItem(R.id.bottom_nav_category).setChecked(true);
+            loadFragment(new WishlistFragment());
+            bottomNavigationView.getMenu().findItem(R.id.bottom_nav_wishlist).setChecked(true);
 
         } else if (itemId == R.id.app_bar_login) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -250,5 +254,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.containerView, fragment);
         transaction.commit();
+    }
+
+    public void loadData(long millis){
+        homeBinding.loadingSpinner.setVisibility(View.VISIBLE);
+        homeBinding.containerView.setVisibility(View.GONE);
+
+        new Handler().postDelayed(() -> {
+            homeBinding.loadingSpinner.setVisibility(View.GONE);
+            homeBinding.containerView.setVisibility(View.VISIBLE);
+        }, millis);
     }
 }
