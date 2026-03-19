@@ -250,6 +250,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void navigateToHome() {
+        homeBinding.topBar.setVisibility(View.VISIBLE);
+        loadFragment(new HomeFragment());
+        navigationView.getMenu().findItem(R.id.app_bar_home).setChecked(true);
+        bottomNavigationView.getMenu().findItem(R.id.bottom_nav_home).setChecked(true);
+    }
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.containerView, fragment);
