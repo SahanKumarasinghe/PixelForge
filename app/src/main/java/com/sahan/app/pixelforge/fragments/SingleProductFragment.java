@@ -1,5 +1,6 @@
 package com.sahan.app.pixelforge.fragments;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.icu.text.NumberFormat;
@@ -27,13 +28,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sahan.app.pixelforge.R;
+import com.sahan.app.pixelforge.activities.LoginActivity;
 import com.sahan.app.pixelforge.activities.MainActivity;
 import com.sahan.app.pixelforge.adapters.ProductSliderAdapter;
 import com.sahan.app.pixelforge.adapters.SectionAdapter;
 import com.sahan.app.pixelforge.databinding.FragmentSingleProductBinding;
+import com.sahan.app.pixelforge.models.CartItem;
 import com.sahan.app.pixelforge.models.Product;
 
 import java.util.ArrayList;
@@ -138,9 +142,38 @@ public class SingleProductFragment extends Fragment {
 
         loadRecommendedProducts();
 
-//        binding.productDetailsAddToCartBtn.setOnClickListener(v -> {
-//            List<CartItem.Attribute> finalSelection = getFinalSelection();
-//        });
+        binding.productDetailsAddToCartBtn.setOnClickListener(v -> {
+
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+            if (auth.getCurrentUser() == null) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            } else {
+
+                List<CartItem.Attribute> attributeList = getFinalSelection();
+
+                CartItem cartItem = new CartItem(productID, buyingQty, attributeList);
+
+                String uid = auth.getCurrentUser().getUid();
+
+                if (attributeList.size() < attributeGroups.size()){
+                    Toast.makeText(getContext(), "Please Choose Attributes for the product", Toast.LENGTH_SHORT).show();
+                }else{
+                    firestoreDB.collection("users")
+                            .document(uid)
+                            .collection("cart")
+                            .document()
+                            .set(cartItem)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getContext(), "Added to cart", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+        });
 
     }
 
@@ -282,25 +315,27 @@ public class SingleProductFragment extends Fragment {
         attributeGroups.put(attribute.getName(), group);
     }
 
-//    private List<CartItem.Attribute> getFinalSelection() {
-//
-//        List<CartItem.Attribute> attributes = new ArrayList<>();
-//
-//        for (Map.Entry<String, ChipGroup> entry : attributeGroups.entrySet()) {
-//            String attributeName = entry.getKey();
-//            ChipGroup chipGroup = entry.getValue();
-//
-//            int checkedChipID = chipGroup.getCheckedChipId();
-//
-//            if (checkedChipID != -1) {
-//                Chip chip = getView().findViewById(checkedChipID);
-//                String value = chip.getTag().toString();
-//
-//                attributes.add(new CartItem.Attribute(attributeName, value));
-//            }
-//        }
-//        return attributes;
-//    }
+    private List<CartItem.Attribute> getFinalSelection() {
+
+        List<CartItem.Attribute> attributes = new ArrayList<>();
+
+        for (Map.Entry<String, ChipGroup> entry : attributeGroups.entrySet()) {
+            String attributeName = entry.getKey();
+            ChipGroup chipGroup = entry.getValue();
+
+            chipGroup.setSelectionRequired(true);
+
+            int checkedChipID = chipGroup.getCheckedChipId();
+
+            if (checkedChipID != -1) {
+                Chip chip = getView().findViewById(checkedChipID);
+                String value = chip.getTag().toString();
+
+                attributes.add(new CartItem.Attribute(attributeName, value));
+            }
+        }
+        return attributes;
+    }
 
     @Override
     public void onStop() {
