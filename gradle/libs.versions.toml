@@ -11,6 +11,7 @@ lombok = "1.18.44"
 material = "1.13.0"
 activity = "1.12.4"
 constraintlayout = "2.2.1"
+payhereAndroidSdk = "v3.0.18"
 
 [libraries]
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
@@ -27,6 +28,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+payhere-android-sdk = { module = "com.github.PayHereDevs:payhere-android-sdk", version.ref = "payhereAndroidSdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
