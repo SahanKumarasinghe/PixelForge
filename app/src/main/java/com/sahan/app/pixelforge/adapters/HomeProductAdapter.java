@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.sahan.app.pixelforge.R;
 import com.sahan.app.pixelforge.models.Product;
+import com.sahan.app.pixelforge.models.WishlistManager;
 
 import java.util.List;
 
@@ -70,12 +71,23 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             });
         });
 
-        holder.wishlistButton.setOnClickListener(v -> {
-            boolean newState = holder.wishlistButton.isChecked();
-            holder.wishlistButton.setChecked(newState);
-            if (newState) {
+        WishlistManager.checkIfInWishlist(holder.itemView.getContext(), product.getProductID(), isInWishlist -> {
+            holder.wishlistButton.setChecked(isInWishlist);
+            if (isInWishlist) {
                 holder.wishlistButton.setIconResource(R.drawable.filled_heart);
             } else {
+                holder.wishlistButton.setIconResource(R.drawable.outline_heart);
+            }
+        });
+
+        holder.wishlistButton.setOnClickListener(v -> {
+            boolean newState = holder.wishlistButton.isChecked();
+
+            if (newState) {
+                WishlistManager.addToWishlist(v.getContext(), product.getProductID());
+                holder.wishlistButton.setIconResource(R.drawable.filled_heart);
+            } else {
+                WishlistManager.removeFromWishlist(v.getContext(), product.getProductID());
                 holder.wishlistButton.setIconResource(R.drawable.outline_heart);
             }
         });
