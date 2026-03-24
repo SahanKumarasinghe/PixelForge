@@ -45,6 +45,16 @@ public class CartFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadCart();
+
+        binding.btnCheckout.setOnClickListener(v -> {
+            CheckoutFragment checkoutFragment = new CheckoutFragment();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.containerView, checkoutFragment)
+                    .addToBackStack(null).commit();
+
+        });
+
     }
 
     @Override
