@@ -51,7 +51,7 @@ public class CartFragment extends Fragment {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.containerView, checkoutFragment)
-                    .addToBackStack(null).commit();
+                    .addToBackStack("cart").commit();
 
         });
 

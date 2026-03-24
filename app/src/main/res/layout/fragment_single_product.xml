@@ -225,7 +225,7 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/product_details_but_now_btn"
+            android:id="@+id/product_details_buy_now_btn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"

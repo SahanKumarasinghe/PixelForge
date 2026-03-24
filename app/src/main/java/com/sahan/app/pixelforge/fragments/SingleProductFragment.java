@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sahan.app.pixelforge.R;
@@ -38,9 +39,11 @@ import com.sahan.app.pixelforge.adapters.ProductSliderAdapter;
 import com.sahan.app.pixelforge.adapters.SectionAdapter;
 import com.sahan.app.pixelforge.databinding.FragmentSingleProductBinding;
 import com.sahan.app.pixelforge.models.CartItem;
+import com.sahan.app.pixelforge.models.Order;
 import com.sahan.app.pixelforge.models.Product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -173,6 +176,34 @@ public class SingleProductFragment extends Fragment {
                             });
                 }
             }
+        });
+
+        binding.productDetailsBuyNowBtn.setOnClickListener(v -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            if (auth.getCurrentUser() == null) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                return;
+            }
+
+            List<CartItem.Attribute> attributeList = getFinalSelection();
+
+            if (attributeList.size() < attributeGroups.size()) {
+                Toast.makeText(getContext(), "Please choose attributes", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Bundle bundle = new Bundle();
+            bundle.putString("productId", productID);
+            bundle.putInt("quantity", buyingQty);
+            bundle.putSerializable("attributes", (ArrayList) attributeList);
+
+            BuyNowCheckoutFragment fragment = new BuyNowCheckoutFragment();
+            fragment.setArguments(bundle);
+
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.containerView, fragment)
+                    .addToBackStack("buynow")
+                    .commit();
         });
 
     }
@@ -348,4 +379,5 @@ public class SingleProductFragment extends Fragment {
         super.onResume();
         getActivity().findViewById(R.id.bottomNavView).setVisibility(View.GONE);
     }
+
 }
