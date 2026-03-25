@@ -37,12 +37,16 @@ public class AboutFragment extends Fragment implements OnMapReadyCallback {
             getActivity().findViewById(R.id.app_bar_home).setVisibility(View.GONE);
         }
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map_container);
+        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+            if (isAdded() && getChildFragmentManager() != null) {
 
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+                SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.map_frame, mapFragment)
+                        .commit();
+                mapFragment.getMapAsync(this);
+            }
+        }, 400);
 
         binding.contactEmail.setOnClickListener(v -> {
             android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_SENDTO);
