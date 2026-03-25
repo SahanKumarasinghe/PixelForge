@@ -33,16 +33,16 @@
             android:title="@string/side_nav_cart_title"
             android:visible="false"/>
         <item
-            android:id="@+id/app_bar_message"
-            android:checkable="true"
-            android:icon="@drawable/chat_unread_svgrepo_com"
-            android:title="@string/side_nav_message_title"
-            android:visible="false"/>
-        <item
             android:id="@+id/app_bar_settings"
             android:checkable="true"
             android:icon="@drawable/settings_svgrepo_com"
             android:title="@string/side_nav_settings_title"
+            android:visible="true"/>
+        <item
+            android:id="@+id/app_bar_about"
+            android:checkable="true"
+            android:icon="@drawable/map_point_svgrepo_com"
+            android:title="@string/side_nav_about_title"
             android:visible="true"/>
     </group>
     <group>
