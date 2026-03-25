@@ -155,9 +155,8 @@
                 <com.sahan.app.pixelforge.utils.TouchableMapWrapper
                     android:layout_width="match_parent"
                     android:layout_height="300dp">
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/map_container"
-                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                    <FrameLayout
+                        android:id="@+id/map_frame"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </com.sahan.app.pixelforge.utils.TouchableMapWrapper>
