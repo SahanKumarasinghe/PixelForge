@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.sahan.app.pixelforge.R;
 import com.sahan.app.pixelforge.models.Product;
-import com.sahan.app.pixelforge.models.WishlistManager;
+import com.sahan.app.pixelforge.utils.WishlistManager;
 
 import java.util.List;
 

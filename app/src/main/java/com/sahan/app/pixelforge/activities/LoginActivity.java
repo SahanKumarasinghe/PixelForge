@@ -1,13 +1,11 @@
 package com.sahan.app.pixelforge.activities;
 
+import static com.sahan.app.pixelforge.utils.WishlistManager.mergeLocalWishlistToFirebase;
+
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -23,14 +21,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.SignInMethodQueryResult;
-import com.sahan.app.pixelforge.databinding.ActivityLoginBinding;
-import com.sahan.app.pixelforge.activities.MainActivity;
 import com.sahan.app.pixelforge.databinding.ActivityLoginBinding;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -146,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
+                                mergeLocalWishlistToFirebase(LoginActivity.this);
                                 updateUI(user);
                             }
                         } else {

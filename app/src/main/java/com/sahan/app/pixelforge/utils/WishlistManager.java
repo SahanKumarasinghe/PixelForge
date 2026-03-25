@@ -1,4 +1,4 @@
-package com.sahan.app.pixelforge.models;
+package com.sahan.app.pixelforge.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

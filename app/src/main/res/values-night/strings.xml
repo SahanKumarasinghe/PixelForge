@@ -6,4 +6,5 @@
     <string name="single_product_recommended_for_you_title">Recommended for you</string>
     <string name="top_selling">Top Selling</string>
     <string name="discover_products">Discover Products</string>
+    <string name="side_nav_about_title">About Us</string>
 </resources>

@@ -31,9 +31,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.sahan.app.pixelforge.R;
 import com.sahan.app.pixelforge.databinding.ActivityMainBinding;
 import com.sahan.app.pixelforge.databinding.SideNavHeaderBinding;
+import com.sahan.app.pixelforge.fragments.AboutFragment;
 import com.sahan.app.pixelforge.fragments.CartFragment;
 import com.sahan.app.pixelforge.fragments.CategoryFragment;
 import com.sahan.app.pixelforge.fragments.HomeFragment;
@@ -119,19 +121,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 sideNavHeaderBinding.sideNavUsername.setText(user.getName());
                                 sideNavHeaderBinding.sideNavEmail.setText(user.getEmail());
 
-                                if (user.getProfilePicUrl() == null) {
-                                    Glide.with(MainActivity.this)
-                                            .load(R.drawable.empty_profile_img)
-                                            .centerCrop()
-                                            .circleCrop()
-                                            .into(sideNavHeaderBinding.sideNavPofilePic);
-                                } else {
-                                    Glide.with(MainActivity.this)
-                                            .load(user.getProfilePicUrl())
-                                            .centerCrop()
-                                            .circleCrop()
-                                            .into(sideNavHeaderBinding.sideNavPofilePic);
-                                }
+                                User profileUser =  documentSnapshot.toObject(User.class);
+                                assert profileUser != null;
+
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                storage.getReference("profile-images/"+profileUser.getProfilePicUrl()).getDownloadUrl()
+                                        .addOnSuccessListener(uri->{
+
+                                            Glide.with(MainActivity.this)
+                                                    .load(uri)
+                                                    .centerCrop()
+                                                    .circleCrop()
+                                                    .placeholder(R.drawable.empty_profile_img)
+                                                    .into(sideNavHeaderBinding.sideNavPofilePic);
+
+                                        });
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -146,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.app_bar_orders).setVisible(true);
             navigationView.getMenu().findItem(R.id.app_bar_wishlist).setVisible(true);
             navigationView.getMenu().findItem(R.id.app_bar_cart).setVisible(true);
-            navigationView.getMenu().findItem(R.id.app_bar_message).setVisible(true);
             navigationView.getMenu().findItem(R.id.app_bar_login).setVisible(false);
             navigationView.getMenu().findItem(R.id.app_bar_logout).setVisible(true);
 
@@ -214,10 +217,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.app_bar_cart).setChecked(true);
             bottomNavigationView.getMenu().findItem(R.id.bottom_nav_cart).setChecked(true);
 
-        } else if (itemId == R.id.app_bar_message) {
-            homeBinding.topBar.setVisibility(View.VISIBLE);
-//            loadFragment(new MessageFragment());
-//            navigationView.getMenu().findItem(R.id.app_bar_message).setChecked(true);
+        }else if (itemId == R.id.app_bar_about) {
+            homeBinding.topBar.setVisibility(View.GONE);
+            loadFragment(new AboutFragment());
+            navigationView.getMenu().findItem(R.id.app_bar_about).setChecked(true);
 
         } else if (itemId == R.id.app_bar_settings) {
             homeBinding.topBar.setVisibility(View.VISIBLE);
@@ -270,5 +273,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             homeBinding.loadingSpinner.setVisibility(View.GONE);
             homeBinding.containerView.setVisibility(View.VISIBLE);
         }, millis);
+    }
+
+    public void updateNavHeaderImage(android.net.Uri imageUri) {
+        if (sideNavHeaderBinding != null) {
+            Glide.with(this)
+                    .load(imageUri)
+                    .placeholder(R.drawable.empty_profile_img)
+                    .centerCrop()
+                    .circleCrop()
+                    .into(sideNavHeaderBinding.sideNavPofilePic);
+        }
     }
 }

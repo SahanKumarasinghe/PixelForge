@@ -19,7 +19,7 @@ import com.sahan.app.pixelforge.activities.MainActivity;
 import com.sahan.app.pixelforge.adapters.WishlistAdapter;
 import com.sahan.app.pixelforge.databinding.FragmentWishlistBinding;
 import com.sahan.app.pixelforge.models.WishlistItem;
-import com.sahan.app.pixelforge.models.WishlistManager;
+import com.sahan.app.pixelforge.utils.WishlistManager;
 
 import java.util.ArrayList;
 import java.util.List;
