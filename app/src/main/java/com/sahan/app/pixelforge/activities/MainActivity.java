@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        android.content.SharedPreferences sharedPreferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
+                isDarkMode ? androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES : androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+        );
+
         super.onCreate(savedInstanceState);
 
         this.homeBinding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -121,12 +128,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 sideNavHeaderBinding.sideNavUsername.setText(user.getName());
                                 sideNavHeaderBinding.sideNavEmail.setText(user.getEmail());
 
-                                User profileUser =  documentSnapshot.toObject(User.class);
+                                User profileUser = documentSnapshot.toObject(User.class);
                                 assert profileUser != null;
 
                                 FirebaseStorage storage = FirebaseStorage.getInstance();
-                                storage.getReference("profile-images/"+profileUser.getProfilePicUrl()).getDownloadUrl()
-                                        .addOnSuccessListener(uri->{
+                                storage.getReference("profile-images/" + profileUser.getProfilePicUrl()).getDownloadUrl()
+                                        .addOnSuccessListener(uri -> {
 
                                             Glide.with(MainActivity.this)
                                                     .load(uri)
@@ -217,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.app_bar_cart).setChecked(true);
             bottomNavigationView.getMenu().findItem(R.id.bottom_nav_cart).setChecked(true);
 
-        }else if (itemId == R.id.app_bar_about) {
+        } else if (itemId == R.id.app_bar_about) {
             homeBinding.topBar.setVisibility(View.GONE);
             loadFragment(new AboutFragment());
             navigationView.getMenu().findItem(R.id.app_bar_about).setChecked(true);
@@ -237,14 +244,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
 
         } else if (itemId == R.id.app_bar_logout) {
-            firebaseAuth.signOut();
-            loadFragment(new HomeFragment());
-            navigationView.getMenu().clear();
-            navigationView.inflateMenu(R.menu.home_nav_menu);
-            navigationView.removeHeaderView(sideNavHeaderBinding.getRoot());
-            navigationView.setPadding(0, 50, 0, 0);
-//            navigationView.inflateHeaderView(R.layout.side_nav_header);
 
+            new MaterialAlertDialogBuilder(MainActivity.this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        firebaseAuth.signOut();
+                        loadFragment(new HomeFragment());
+                        navigationView.getMenu().clear();
+                        navigationView.inflateMenu(R.menu.home_nav_menu);
+                        navigationView.removeHeaderView(sideNavHeaderBinding.getRoot());
+                        navigationView.setPadding(0, 50, 0, 0);
+
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .show();
         }
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END);
@@ -259,13 +275,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().findItem(R.id.app_bar_home).setChecked(true);
         bottomNavigationView.getMenu().findItem(R.id.bottom_nav_home).setChecked(true);
     }
+
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.containerView, fragment);
         transaction.commit();
     }
 
-    public void loadData(long millis){
+    public void loadData(long millis) {
         homeBinding.loadingSpinner.setVisibility(View.VISIBLE);
         homeBinding.containerView.setVisibility(View.GONE);
 
