@@ -28,6 +28,11 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        android.content.SharedPreferences sharedPreferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = sharedPreferences.getBoolean("isDarkMode", false);
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(
+                isDarkMode ? androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES : androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+        );
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
@@ -49,31 +54,15 @@ public class SplashActivity extends AppCompatActivity {
         Glide.with(this)
                 .asBitmap()
                 .load(R.drawable.pixelforgelogodark)
-                .override(200)
                 .fitCenter()
                 .into(splashLogoView);
 
         splashProgressBar.post(this::barProgress);
 
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                findViewById(R.id.splashSpinner).setVisibility(View.VISIBLE);
-//            }
-//        }, 500);
-//
-//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                forwardToHome();
-//            }
-//        }, 2000);
-
 
     }
 
     private void forwardToHome() {
-//        findViewById(R.id.splashSpinner).setVisibility(View.INVISIBLE);
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

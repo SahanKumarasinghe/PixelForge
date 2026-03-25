@@ -67,7 +67,6 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         if (getActivity() instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) getActivity();
-            mainActivity.findViewById(R.id.app_bar_home).setVisibility(View.GONE);
 
             BottomNavigationView bottomNav = mainActivity.findViewById(R.id.bottomNavView);
             if (bottomNav != null) bottomNav.getMenu().findItem(R.id.bottom_nav_profile).setChecked(true);
